@@ -1,4 +1,5 @@
 ﻿using DotNet6_WebAPI.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -18,6 +19,13 @@ namespace DotNet6_WebAPI.Controllers
         public AuthController(IConfiguration configuration)
         {
             _configuration = configuration;
+        }
+
+        [HttpGet,Authorize]
+        public ActionResult<string> GetMe()
+        {
+            var userName = User?.Identity?.Name;
+            return Ok(userName);
         }
 
         [HttpPost("register")]
